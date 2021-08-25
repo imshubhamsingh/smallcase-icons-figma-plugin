@@ -1,0 +1,16 @@
+{
+  "api": "1.0.0",
+  "editorType": [
+    "figma"
+  ],
+  "name": "smallcase Icons",
+  "id": "smallcase-icon",
+  "main": "build/main.js",
+  "ui": "build/ui.js",
+  "relaunchButtons": [
+    {
+      "name": "smallcase Icons",
+      "command": "smallcaseIcons"
+    }
+  ]
+}
