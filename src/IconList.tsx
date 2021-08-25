@@ -8,16 +8,18 @@ import styles from "./style.css";
 function IconList() {
   let [svg, setSvg] = useState<Array<IIconInfo>>([]);
 
-  const importToFigma = ({name, svg}: IIconInfo) => {
+  const importToFigma = ({ name, svg }: IIconInfo) => {
+    console.log(svg)
     emit("IMPORT", { name, svg });
   };
 
   useEffect(() => {
-    const x = extractIcons({
+    extractIcons({
       height: 15,
       width: 15,
+    }).then((x) => {
+      setSvg(x);
     });
-    setSvg(x);
   }, []);
 
   return (

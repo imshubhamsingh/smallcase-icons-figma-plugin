@@ -28,7 +28,7 @@
     "@smallcase/shringar": "^6.6.0",
     "@xmldom/xmldom": "^0.7.2",
     "font-blast": "^0.7.0",
-    "js-base64": "^3.6.1",
+    "postcss": "^8.3.6",
     "preact": "^10.5.14",
     "svgo": "^2.4.0",
     "xmldom": "^0.6.0"

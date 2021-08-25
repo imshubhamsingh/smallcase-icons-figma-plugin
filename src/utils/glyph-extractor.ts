@@ -1,6 +1,8 @@
 //@ts-ignore
-import iconSvg from "@smallcase/shringar/icons/icomoon.svg";
-import { decode } from "js-base64";
+import iconSvg from "raw:../../node_modules/@smallcase/shringar/icons/icomoon.svg";
+import iconCSS from "raw:../../node_modules/@smallcase/shringar/icons/icons.css";
+import { entityForSymbol } from ".";
+import getIconClassesFromCSS from "./getIconClassesFromCSS";
 
 interface IExtractIcons {
   height: number;
@@ -13,11 +15,16 @@ export interface IIconInfo {
   svg: string;
 }
 
-function extractIcons({ height, width }: IExtractIcons): IIconInfo[] {
-  const base64 = iconSvg.replace("data:image/svg+xml;base64", "");
-  const svg = decode(base64);
-  const doc = new DOMParser().parseFromString(svg, "text/xml");
 
+
+async function extractIcons({
+  height,
+  width,
+}: IExtractIcons): Promise<IIconInfo[]> {
+  const doc = new DOMParser().parseFromString(iconSvg, "text/xml");
+
+  //@ts-ignore
+  const icons = await getIconClassesFromCSS(iconCSS);
   const fontSpec = doc.getElementsByTagName("font")[0];
   const defaultCharWidth = fontSpec.getAttribute("horiz-adv-x");
   const fontFace = doc.getElementsByTagName("font-face")[0];
@@ -54,7 +61,9 @@ function extractIcons({ height, width }: IExtractIcons): IIconInfo[] {
       code: iconCode,
       name: useCharacterName,
       svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${contentWidth} ${defaultCharHeight}" height="${height}" width="${width}">
-        <g transform="scale(1,-1) translate(0 -${translateOffset})" fill="black">
+        <g transform="scale(1,-1) translate(0 -${translateOffset})" fill="${
+        icons[entityForSymbol(iconCode)]?.color ?? "black"
+      }">
             <path d="${pathData}"/>
         </g></svg>`,
     };
